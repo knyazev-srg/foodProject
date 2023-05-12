@@ -104,6 +104,7 @@ window.addEventListener('DOMContentLoaded', function() {
         modal.classList.add('show');
         modal.classList.remove('hide');
         document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId);
     }
 
     modalTrigger.forEach(btn => {
