@@ -129,4 +129,6 @@ window.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }
     });
+
+    const modalTimerId = setTimeout(openModal, 10000);
 });
