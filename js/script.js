@@ -142,13 +142,12 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // const modalTimerId = setTimeout(openModal, 10000);
+    const modalTimerId = setTimeout(openModal, 10000);
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
             openModal();
             window.removeEventListener('scroll', showModalByScroll);
-            alert('done');
         }
     }
     window.addEventListener('scroll', showModalByScroll);
@@ -224,38 +223,56 @@ window.addEventListener('DOMContentLoaded', function() {
     // Forms
 
     const forms = document.querySelectorAll('form');
-
     const message = {
         loading: 'Загрузка...',
-        sucess: 'Спасибо! Скоро мы с Вами свяжемся',
-        failure: 'Ошибка. Что-то пошло не так',
-    }
+        success: 'Спасибо! Скоро мы с вами свяжемся',
+        failure: 'Что-то пошло не так...'
+    };
 
-    forms.forEach(i => PostData(i));
+    forms.forEach(item => {
+        postData(item);
+    });
 
-    function PostData(form) {
+    function postData(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const statusMessage = document.createElement('div');
-            statusMessage.classList.add('.statusMessage');
+            let statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
             statusMessage.textContent = message.loading;
-            form.append(statusMessage);
-
+            form.appendChild(statusMessage);
+        
             const request = new XMLHttpRequest();
             request.open('POST', 'server.php');
 
-            // request.setRequestHeader('Content-type', 'multipart/form-data');
+            request.setRequestHeader('Content-type', 'application/json; charset=utf-8'); // for JSON
+            // request.setRequestHeader('Content-type', 'multipart/form-data'); // Headers no needed for XML with FormData
+
             const formData = new FormData(form);
 
-            request.send(formData);
+            // JSON format
+
+            const object = {};
+            formData.forEach(function(value, key){
+                object[key] = value;
+            });
+            const json = JSON.stringify(object);
+
+            // request.send(formData); // XML
+            request.send(json); // JSON
 
             request.addEventListener('load', () => {
                 if (request.status === 200) {
-                    statusMessage.textContent = message.sucess;
-                } statusMessage.textContent = message.failure;
-            })
-
-        })
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+        });
     }
 });
