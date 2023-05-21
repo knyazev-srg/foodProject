@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
   
     // Timer
   
-    const deadline = '2022-06-11';
+    const deadline = '2023-06-11';
   
     function getTimeRemaining(endtime) {
       const t = Date.parse(endtime) - Date.parse(new Date());
@@ -123,7 +123,7 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
   
-    const modalTimerId = setTimeout(openModal, 300000);
+    const modalTimerId = setTimeout(openModal, 10000);
     // Изменил значение, чтобы не отвлекало
   
     function showModalByScroll() {
