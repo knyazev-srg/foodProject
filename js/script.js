@@ -269,5 +269,50 @@ window.addEventListener('DOMContentLoaded', () => {
         closeModal();
       }, 4000);
     }
+
+    // Slider
+
+    const sliderContainer = document.querySelector('.offer__slider-counter');
+    const sliderPrev = document.querySelector('.offer__slider-prev');
+    const sliderNext = document.querySelector('.offer__slider-next');
+    const currentSlide = document.getElementById('current');
+    const totalSlide = document.getElementById('total');
+    const slidePics = document.querySelectorAll('.offer__slide');
+
+    // slidePics.forEach(elem => elem.classList.add('hide'));
+    slidePics[currentSlide.innerHTML - 1].classList.remove('hide');
+
+    sliderContainer.addEventListener('click', (e) => {
+      let total;
+
+      slidePics.forEach(elem => elem.classList.add('hide'));
+
+      if (e.target === sliderPrev) {
+        if (currentSlide.innerHTML == 1) {
+          total = +totalSlide.innerHTML;
+        } else total = +currentSlide.innerHTML - 1;
+        if (total < 10) {
+          currentSlide.innerHTML = `0${total}`;
+          slidePics[currentSlide.innerHTML - 1].classList.toggle('hide');
+        } else {
+          currentSlide.innerHTML = `${total}`;
+          slidePics[currentSlide.innerHTML - 1].classList.toggle('hide');
+        }
+
+      }
+      if (e.target === sliderNext) {
+        if (currentSlide.innerHTML === totalSlide.innerHTML) {
+          total = 1;
+        } else total = +currentSlide.innerHTML + 1;
+
+        if (total < 10) {
+          currentSlide.innerHTML = `0${total}`;
+          slidePics[currentSlide.innerHTML - 1].classList.toggle('hide');
+        } else {
+          currentSlide.innerHTML = `${total}`;
+          slidePics[currentSlide.innerHTML - 1].classList.toggle('hide');
+        }
+      }
+    })
   });
   
